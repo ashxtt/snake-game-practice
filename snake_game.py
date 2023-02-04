@@ -20,6 +20,15 @@ head.penup()
 head.goto(0,0)
 head.direction = "stop"
 
+#Todo Snake food
+food = turtle.Turtle()
+food.speed(0)
+food.shape("circle")
+food.color("brown")
+food.penup()
+food.goto(0,100)
+
+
 # * function to move my head up
 def go_up():
     head.direction = "up"
