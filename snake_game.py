@@ -4,6 +4,9 @@ import random
 
 delay = 0.1
 
+score = 0
+high_score = 0
+
 wn = turtle.Screen()
 wn.title("Snake Game by @lilgreyya")
 wn.bgcolor("black")
@@ -31,7 +34,14 @@ food.goto(0,100)
 
 segments = []
 
-
+pen = turtle.Turtle()
+pen.speed(0)
+pen.shape("square")
+pen.color("white")
+pen.up()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Score: 0  High Score: 0", align="center", font=("Courier", 24, "bold"))
 
 # * function to move my head up
 def go_up():
@@ -83,6 +93,14 @@ while True:
         head.goto(0,0)
         head.direction = "stop"
 
+        
+
+        #* Reset
+        score = 0
+
+        pen.clear()
+        pen.write("Score: {} High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+
        
     # * collison with the food
     if head.distance(food) < 20:
@@ -97,6 +115,13 @@ while True:
         new_segment.color("white")
         new_segment.penup()
         segments.append(new_segment)
+
+        score += 1
+        if score > high_score:
+            high_score = score
+
+        pen.clear()
+        pen.write("Score: {} High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
 
     # * MOve the end segments first 
     for index in range(len(segments)-1, 0, -1):
