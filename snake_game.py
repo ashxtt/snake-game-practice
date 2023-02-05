@@ -32,15 +32,21 @@ food.goto(0,100)
 segments = []
 
 
+
 # * function to move my head up
 def go_up():
-    head.direction = "up"
+    if head.direction != "down":
+        head.direction = "up"
+    
 def go_left():
-    head.direction = "left"
+    if head.direction != "right":
+        head.direction = "left"
 def go_right():
-    head.direction = "right"
+    if head.direction != "left":
+        head.direction = "right"
 def go_down():
-    head.direction = "down"
+    if head.direction != "up":
+        head.direction = "down"
 
 def move():
     if head.direction == "up":
@@ -70,6 +76,14 @@ wn.onkeypress(go_down, "s")
 # * This loop updates the screen
 while True:
     wn.update()
+
+    # * Collision w/ border
+    if head.xcor()>290 or head.xcor()<-290 or head.ycor()<-290:
+        time.sleep(1)
+        head.goto(0,0)
+        head.direction = "stop"
+
+       
     # * collison with the food
     if head.distance(food) < 20:
         x = random.randint(-290,290)
@@ -96,6 +110,23 @@ while True:
         segments[0].goto(x,y)
 
     move()
+
+    # * Body collison
+    for segment in segments:
+        if segment in segments:
+            if segment.distance(head) < 20:
+                time.sleep(1)
+                head.goto(0,0)
+                head.direction = "stop"
+
+                #* Hide segments
+                for segment in segments:
+                    segment.goto(1000, 1000)
+
+                # * clears the segment list
+                segments.clear()
+
+
     time.sleep(delay)
 
 wn.mainloop()
